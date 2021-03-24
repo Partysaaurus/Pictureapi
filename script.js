@@ -34,6 +34,7 @@ async function CuratedPhotos(pagenr) {
         `;
         document.querySelector(".gallery").appendChild(pic);
     });
+
 }
 async function SearchPhotos(query, pagenr) {
     const data = await fetch(
@@ -47,7 +48,19 @@ async function SearchPhotos(query, pagenr) {
 
         }
     );
+
+    const result = await data.json();
+    result.photos.forEach((photo) => {
+        const pic = document.createElement("div");
+        pic.innerHTML = `<img src=${photo.src.large}
+        <p>Photo : ${photo.photographer}</p>
+        <a href=${photo.src.large}>Download</a>
+        `;
+        document.querySelector(".gallery").appendChild(pic);
+    });
+
 }
+
 searchButton.addEventListener("click", () => {
     if (input.value === "") return;
     clear();
@@ -55,6 +68,7 @@ searchButton.addEventListener("click", () => {
     SearchPhotos(query, pagenr);
     pagenr++;
 });
+
 function clear() {
     input.value = "";
     document.querySelector(".gallery").innerHTML = "";
@@ -63,7 +77,3 @@ function clear() {
 ;
 
 CuratedPhotos(pagenr);
-
-
-
-
